@@ -1,0 +1,22 @@
+<blocks>
+  <block>
+    <name>Amplifier</name>
+    <description>Example description</description>
+    <inputs>
+      <input>In</input>
+    </inputs>
+    <outputs>
+      <output>Out</output>
+    </outputs>
+  </block>
+  <parameters>
+    <parameter>
+      <label>power</label>
+      <name>Power</name>
+      <description>Power description</description>
+      <switch>
+        <value>On</value>
+        <value>Bypass</value>
+      </switch>
+  </parameters>
+</blocks>
