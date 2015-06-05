@@ -1,12 +1,13 @@
 #include <iostream>
 #include <vector>
 #include "parameter.hpp"
+#include <memory>
+#include "block.hpp"
 
 int main() {
-  const dsb::parameter *b = dsb::bypass::default_instance();
+  dsb::block<1, 1, dsb::bypass> block(0u);
+  const std::unique_ptr<dsb::bypass> b = std::make_unique<dsb::bypass>(0);
   std::cout << b->name() << std::endl;
   std::cout << b->description() << std::endl;
-  std::unique_ptr<dsb::parameter> ncb = b->copy();
-  ncb->set_index(1);
   return 0;
 }

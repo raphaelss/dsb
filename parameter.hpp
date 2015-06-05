@@ -1,10 +1,9 @@
 #ifndef PARAMETER_HPP_INCLUDED
 #define PARAMETER_HPP_INCLUDED
 #include <string>
-#include <vector>
+#include <array>
 #include <initializer_list>
 #include <stdexcept>
-#include <memory>
 
 namespace dsb {
 
@@ -14,15 +13,9 @@ struct parameter {
   virtual const std::string &name() const = 0;
   virtual const std::string &description() const = 0;
 
-  virtual std::unique_ptr<parameter> copy() const = 0;
+  virtual void set_index(unsigned i);
 
-  virtual void set_index(unsigned i) {
-    throw std::runtime_error("parameter does not respond to set_index.");
-  }
-
-  virtual void set_number(double x) {
-    throw std::runtime_error("parameter does not respond to set_number.");
-  }
+  virtual void set_number(double x);
 };
 
 namespace impl {
@@ -36,16 +29,6 @@ public:
 
   const std::string &description() const override {
     return _description;
-  }
-
-  static const parameter *default_instance() {
-    static T param;
-    return &param;
-  }
-
-  std::unique_ptr<parameter> copy() const override {
-    const T *derived_ptr = static_cast<const T*>(this);
-    return std::unique_ptr<parameter>(new T(*derived_ptr));
   }
 
 protected:
@@ -65,9 +48,11 @@ std::string parameter_helper<T>::_name;
 template <class T>
 std::string parameter_helper<T>::_description;
 
-template<class T>
+template<class T, unsigned N>
 class switch_parameter : public parameter_helper<T> {
 public:
+  using type = unsigned;
+
   void set_index(unsigned i) override {
     check_input(i);
     _current = i;
@@ -78,26 +63,28 @@ protected:
   switch_parameter(S1 &&name, S2 &&description, unsigned initial,
       std::initializer_list<std::string> list)
           : parameter_helper<T>(name, description), _current(initial) {
-    _options = list;
+    std::copy(list.begin(), list.end(), _options.begin());
     check_input(initial);
   }
 
 private:
   void check_input(unsigned i) {
-    if (i > _options.size())
+    if (i >= _options.size())
       throw std::domain_error("switch input not in range");
   }
 
   unsigned _current;
-  static std::vector<std::string> _options;
+  static std::array<std::string, N> _options;
 };
 
-template<class T>
-std::vector<std::string> switch_parameter<T>::_options;
+template<class T, unsigned N>
+std::array<std::string, N> switch_parameter<T, N>::_options;
 
 template <class T>
 class number_parameter : public parameter_helper<T> {
 public:
+  using type = double;
+
   void set_number(double x) override {
     check_input(x);
     _current = x;
@@ -105,8 +92,8 @@ public:
 
 protected:
   template <class S1, class S2>
-  number_parameter(S1 &&name, S2 &&description, T initial, T min, T max)
-      : parameter_helper<T>(name, description), _current(initial) {
+  number_parameter(S1 &&name, S2 &&description, double initial, double min,
+      double max): parameter_helper<T>(name, description), _current(initial) {
     check_input(initial);
     _min = min;
     _max = max;
@@ -119,15 +106,27 @@ private:
     }
   }
 
-  T _current;
-  static T _min = 0, _max = 0;
+  double _current;
+  static double _min, _max;
 };
+
+template<class T>
+double number_parameter<T>::_min = 0;
+
+template<class T>
+double number_parameter<T>::_max = 0;
+
 
 }
 
-struct bypass : impl::switch_parameter<bypass> {
-  bypass(): switch_parameter<bypass>("bypass", "bypass/on", 0,
-      {"bypass", "on"}) {}
+struct bypass : impl::switch_parameter<bypass, 2> {
+  bypass(unsigned initial): switch_parameter<bypass, 2>("bypass", "bypass/on",
+      initial, {"bypass", "on"}) {}
+};
+
+struct gain : impl::number_parameter<gain> {
+  gain(double initial): impl::number_parameter<gain>("gain", "gain(0.0-1.0)",
+      initial, 0, 1) {}
 };
 
 }
