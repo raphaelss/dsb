@@ -2,7 +2,6 @@
 #define BLOCK_HPP_DSPSTMPBX_INCLUDED
 #include <array>
 #include "parameter.hpp"
-#include <boost/mpl/list.hpp>
 
 namespace dsb {
 
