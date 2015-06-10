@@ -1,39 +1,22 @@
-#ifndef BLOCK_HPP_DSPSTMPBX_INCLUDED
-#define BLOCK_HPP_DSPSTMPBX_INCLUDED
-#include <array>
+#ifndef BLOCK_HPP_STOMPBLOCKS_INCLUDED
+#define BLOCK_HPP_STOMPBLOCKS_INCLUDED
+#include <vector>
+#include <memory>
 #include "parameter.hpp"
 
-namespace dsb {
+namespace sblocks {
 
-namespace impl {
-
-struct block_base {
-  virtual ~block_base() = default;
-};
-
-template <class Iter>
-void fill(Iter it) {}
-
-template <class Iter, class T, class ...Rest>
-void fill(Iter it, typename T::type arg, typename Rest::type... args) {
-  *it++ = std::make_unique<T>(arg);
-  fill(it, args...);
-}
-
-}
-
-template<unsigned Nin, unsigned Nout, class ...Params>
-class block : impl::block_base {
+class block {
 public:
-  block(typename Params::type... args) {
-    impl::fill<typename decltype(_params)::iterator, Params...>
-        (_params.begin(), args...);
-  }
+  block(unsigned input_n, unsigned output_n,
+       std::vector<std::unique_ptr<parameter>> parameters);
+
+  std::shared_ptr<block> copy() const;
 
 private:
-  std::array<std::shared_ptr<block_base>, Nin> _inputs;
-  std::array<std::shared_ptr<block_base>, Nout> _outputs;
-  std::array<std::unique_ptr<parameter>, sizeof...(Params)> _params;
+  std::vector<std::shared_ptr<block>> _inputs;
+  std::vector<std::shared_ptr<block>> _outputs;
+  std::vector<std::unique_ptr<parameter>> _parameters;
 };
 
 }
