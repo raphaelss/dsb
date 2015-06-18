@@ -4,9 +4,10 @@
 namespace sblocks {
 
 block_descriptor::block_descriptor(std::string name, std::string descr,
-    unsigned input_n, unsigned output_n)
+    unsigned input_n, unsigned output_n,
+    std::vector<std::unique_ptr<parameter>> parameters)
         : descriptor(std::move(name), std::move(descr)), _input_n(input_n),
-          _output_n(output_n) {}
+        _output_n(output_n), _parameters(std::move(parameters)) {}
 
 unsigned block_descriptor::input_n() const {
   return _input_n;
