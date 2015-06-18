@@ -14,7 +14,6 @@ public:
 private:
   std::vector<std::unique_ptr<parameter_descriptor>> _parameter_descriptors;
   std::vector<block_descriptor> _block_descriptors;
-  std::vector<block> _blocks;
 };
 
 }
