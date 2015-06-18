@@ -8,10 +8,12 @@
 namespace sblocks {
 
 class parameter;
+struct parameter_descriptor_visitor;
 
 struct parameter_descriptor : descriptor {
   parameter_descriptor(std::string name, std::string descr);
   virtual std::unique_ptr<parameter> instantiate() const = 0;
+  virtual void accept(parameter_descriptor_visitor &visitor) const = 0;
 };
 
 struct switch_parameter_descriptor : parameter_descriptor {
@@ -19,6 +21,7 @@ struct switch_parameter_descriptor : parameter_descriptor {
       std::vector<std::string> options_);
 
   std::unique_ptr<parameter> instantiate() const override;
+  void accept(parameter_descriptor_visitor &visitor) const override;
 
   const std::vector<std::string> options;
 };
@@ -28,10 +31,16 @@ struct number_parameter_descriptor : parameter_descriptor {
       double max_);
 
   std::unique_ptr<parameter> instantiate() const override;
+  void accept(parameter_descriptor_visitor &visitor) const override;
 
   const double min, max;
 };
 
+struct parameter_descriptor_visitor {
+  virtual ~parameter_descriptor_visitor() = default;
+  virtual void visit(const switch_parameter_descriptor &descr) = 0;
+  virtual void visit(const number_parameter_descriptor &descr) = 0;
+};
 
 }
 

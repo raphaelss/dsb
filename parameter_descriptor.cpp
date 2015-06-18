@@ -16,6 +16,11 @@ std::unique_ptr<parameter> switch_parameter_descriptor::instantiate() const {
   return std::move(std::unique_ptr<parameter>(new switch_parameter(*this)));
 }
 
+void switch_parameter_descriptor::accept(
+    parameter_descriptor_visitor &visitor) const {
+  visitor.visit(*this);
+}
+
 number_parameter_descriptor::number_parameter_descriptor(std::string name,
     std::string descr, double min_, double max_)
         : parameter_descriptor(std::move(name), std::move(descr)), min(min_),
@@ -25,5 +30,9 @@ std::unique_ptr<parameter> number_parameter_descriptor::instantiate() const {
   return std::move(std::unique_ptr<parameter>(new number_parameter(*this)));
 }
 
+void number_parameter_descriptor::accept(
+    parameter_descriptor_visitor &visitor) const {
+  visitor.visit(*this);
+}
 
 }

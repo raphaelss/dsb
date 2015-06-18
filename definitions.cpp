@@ -44,7 +44,7 @@ read_parameter_descriptor(const Json::Value &obj) {
 
 static std::vector<std::unique_ptr<parameter_descriptor>>
 read_parameters(const Json::Value &json_params) {
-  std::vector<std::unique_ptr<parameter_descriptor>> vec;//(json_params.size());
+  std::vector<std::unique_ptr<parameter_descriptor>> vec;
   for (const auto &obj : json_params) {
     vec.emplace_back(std::move(read_parameter_descriptor(obj)));
   }
