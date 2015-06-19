@@ -130,4 +130,12 @@ definition_handler::definition_handler(std::istream &in) {
       _parameter_descriptors));
 }
 
+definition_handler::const_iterator definition_handler::cbegin() const {
+  return _block_descriptors.cbegin();
+}
+
+definition_handler::const_iterator definition_handler::cend() const {
+  return _block_descriptors.cend();
+}
+
 }

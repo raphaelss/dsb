@@ -10,12 +10,12 @@ static block::block_iterator find_first_null(
   });
 }
 
-block::block(block_descriptor &descr): _descriptor(descr),
+block::block(const block_descriptor &descr): _descriptor(&descr),
     _inputs(descr.input_n()), _outputs(descr.output_n()),
     _parameters(std::move(descr.parameter_vector_copy())) {}
 
 std::shared_ptr<block> block::copy() const {
-  return std::make_shared<block>(_descriptor);
+  return std::make_shared<block>(*_descriptor);
 }
 
 block::block_iterator block::input_begin() {

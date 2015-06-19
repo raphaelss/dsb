@@ -12,7 +12,7 @@ public:
   using block_iterator = std::vector<std::shared_ptr<block>>::iterator;
   using param_iterator = std::vector<std::unique_ptr<parameter>>::iterator;
 
-  block(block_descriptor &descr);
+  block(const block_descriptor &descr);
 
   std::shared_ptr<block> copy() const;
 
@@ -30,7 +30,7 @@ private:
   block(unsigned input_n, unsigned output_n,
        std::vector<std::unique_ptr<parameter>> parameters);
 
-  block_descriptor &_descriptor;
+  const block_descriptor *_descriptor;
   std::vector<std::shared_ptr<block>> _inputs;
   std::vector<std::shared_ptr<block>> _outputs;
   std::vector<std::unique_ptr<parameter>> _parameters;
