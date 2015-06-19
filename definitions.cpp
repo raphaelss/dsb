@@ -7,14 +7,20 @@
 
 namespace sblocks {
 
-struct parameter_value_initializer : parameter_visitor {
-  Json::Value *obj_ptr;
-  void visit(const switch_parameter &p) {
+class parameter_initializer : public parameter_visitor {
+public:
+  parameter_initializer(const Json::Value &obj): _obj(obj) {}
 
+  void visit(switch_parameter &p) override {
+    p.set_value(_obj.asUInt());
   }
 
-  void visit(const number_parameter &p) {
+  void visit(number_parameter &p) override {
+    p.set_value(_obj.asDouble());
   }
+
+private:
+  const Json::Value &_obj;
 };
 
 static std::string get_string(const Json::Value &obj) {
@@ -77,8 +83,10 @@ block_read_init_parameter(const Json::Value &obj,
   );
   if (iter == params.end())
     throw -78;
-  //TODO
-  return std::move(std::unique_ptr<parameter>(nullptr));
+  std::unique_ptr<parameter> p(std::move((*iter)->instantiate()));
+  parameter_initializer visitor(obj[1]);
+  p->accept(visitor);
+  return std::move(p);
 }
 
 static block_descriptor read_block_descriptor(const Json::Value &obj,

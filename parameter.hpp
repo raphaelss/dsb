@@ -26,6 +26,7 @@ public:
   const parameter_descriptor &get_descriptor() const override;
   std::unique_ptr<parameter> copy() const override;
   void accept(parameter_visitor &visitor) override;
+  void set_value(unsigned x);
 
 private:
   unsigned _index;
@@ -39,6 +40,7 @@ public:
   const parameter_descriptor &get_descriptor() const override;
   std::unique_ptr<parameter> copy() const override;
   void accept(parameter_visitor &visitor) override;
+  void set_value(double x);
 
 private:
   double _value;
@@ -47,8 +49,8 @@ private:
 
 struct parameter_visitor {
   virtual ~parameter_visitor() = default;
-  virtual void visit(const switch_parameter &p) = 0;
-  virtual void visit(const number_parameter &p) = 0;
+  virtual void visit(switch_parameter &p) = 0;
+  virtual void visit(number_parameter &p) = 0;
 };
 
 }

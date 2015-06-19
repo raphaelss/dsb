@@ -28,6 +28,12 @@ void switch_parameter::accept(parameter_visitor &visitor) {
   visitor.visit(*this);
 }
 
+void switch_parameter::set_value(unsigned x) {
+  if (x >= _descriptor.options.size())
+    throw 2.0;
+  _index = x;
+}
+
 number_parameter::number_parameter(const number_parameter_descriptor &descr)
     : _value(descr.min), _descriptor(descr) {}
 
@@ -45,6 +51,10 @@ void number_parameter::accept(parameter_visitor &visitor) {
   visitor.visit(*this);
 }
 
-
+void number_parameter::set_value(double x) {
+  if (x < _descriptor.min || x > _descriptor.max)
+    throw 2.0;
+  _value = x;
+}
 
 }
