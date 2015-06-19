@@ -24,6 +24,10 @@ std::unique_ptr<parameter> switch_parameter::copy() const {
   return std::unique_ptr<parameter>(ptr);
 }
 
+void switch_parameter::accept(parameter_visitor &visitor) {
+  visitor.visit(*this);
+}
+
 number_parameter::number_parameter(const number_parameter_descriptor &descr)
     : _value(descr.min), _descriptor(descr) {}
 
@@ -35,8 +39,12 @@ std::unique_ptr<parameter> number_parameter::copy() const {
   auto ptr = new number_parameter(_descriptor);
   ptr->_value = _value;
   return std::unique_ptr<parameter>(ptr);
-
 }
+
+void number_parameter::accept(parameter_visitor &visitor) {
+  visitor.visit(*this);
+}
+
 
 
 }

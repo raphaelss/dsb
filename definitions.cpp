@@ -2,10 +2,20 @@
 #include <algorithm>
 #include <string>
 #include <json/json.h>
+#include "parameter.hpp"
 
-#include <iostream>
 
 namespace sblocks {
+
+struct parameter_value_initializer : parameter_visitor {
+  Json::Value *obj_ptr;
+  void visit(const switch_parameter &p) {
+
+  }
+
+  void visit(const number_parameter &p) {
+  }
+};
 
 static std::string get_string(const Json::Value &obj) {
   if (obj.isString()) {
