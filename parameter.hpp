@@ -26,7 +26,10 @@ public:
   const parameter_descriptor &get_descriptor() const override;
   std::unique_ptr<parameter> copy() const override;
   void accept(parameter_visitor &visitor) override;
-  void set_value(unsigned x);
+
+  const std::string &at(unsigned i) const;
+  void set(unsigned x);
+  unsigned size() const;
 
 private:
   unsigned _index;
@@ -40,7 +43,9 @@ public:
   const parameter_descriptor &get_descriptor() const override;
   std::unique_ptr<parameter> copy() const override;
   void accept(parameter_visitor &visitor) override;
-  void set_value(double x);
+
+  double value() const;
+  void set(double x);
 
 private:
   double _value;

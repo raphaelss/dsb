@@ -12,11 +12,11 @@ public:
   parameter_initializer(const Json::Value &obj): _obj(obj) {}
 
   void visit(switch_parameter &p) override {
-    p.set_value(_obj.asUInt());
+    p.set(_obj.asUInt());
   }
 
   void visit(number_parameter &p) override {
-    p.set_value(_obj.asDouble());
+    p.set(_obj.asDouble());
   }
 
 private:
