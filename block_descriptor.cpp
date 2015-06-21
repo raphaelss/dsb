@@ -17,6 +17,22 @@ unsigned block_descriptor::output_n() const {
   return _output_n;
 }
 
+unsigned block_descriptor::min_input_n() const {
+  return _input_n;
+}
+
+unsigned block_descriptor::max_input_n() const {
+  return _input_n;
+}
+
+unsigned block_descriptor::min_output_n() const {
+  return _output_n;
+}
+
+unsigned block_descriptor::max_output_n() const {
+  return _output_n;
+}
+
 std::vector<std::unique_ptr<parameter>>
 block_descriptor::parameter_vector_copy() const {
   std::vector<std::unique_ptr<parameter>> param_vec(_parameters.size());

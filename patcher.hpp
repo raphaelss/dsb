@@ -1,7 +1,7 @@
 #ifndef PATCHER_HPP_STOMPBLOCKS_INCLUDED
 #define PATCHER_HPP_STOMPBLOCKS_INCLUDED
 #include <vector>
-#include <block>
+#include "block.hpp"
 
 namespace sblocks {
 
@@ -14,6 +14,6 @@ private:
   const std::vector<block> *_blocks;
 };
 
-};
+}
 
 #endif

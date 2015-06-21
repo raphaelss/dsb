@@ -10,6 +10,6 @@ int main() {
   for (auto it = dh.cbegin(); it != dh.cend(); ++it) {
     blocks.emplace_back(*it);
   }
-  sblocks::patcher(blocks);
+  sblocks::patcher p(blocks);
   return 0;
 }
