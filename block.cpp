@@ -18,6 +18,14 @@ std::shared_ptr<block> block::copy() const {
   return std::make_shared<block>(*_descriptor);
 }
 
+const std::string &block::name() const {
+  return _descriptor->description();
+}
+
+const std::string &block::description () const {
+  return _descriptor->description();
+}
+
 block::block_iterator block::input_begin() {
   return _inputs.begin();
 }

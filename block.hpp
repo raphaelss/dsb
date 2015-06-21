@@ -7,7 +7,7 @@
 
 namespace sblocks {
 
-class block {
+class block : public describable {
 public:
   using block_iterator = std::vector<std::shared_ptr<block>>::iterator;
   using param_iterator = std::vector<std::unique_ptr<parameter>>::iterator;
@@ -15,6 +15,9 @@ public:
   block(const block_descriptor &descr);
 
   std::shared_ptr<block> copy() const;
+
+  const std::string &name() const override;
+  const std::string &description () const override;
 
   block_iterator input_begin();
   block_iterator input_end();
