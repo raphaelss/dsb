@@ -33,7 +33,7 @@ public:
 
 private:
   unsigned _index;
-  const switch_parameter_descriptor &_descriptor;
+  const switch_parameter_descriptor *_descriptor;
 };
 
 class number_parameter : public parameter {
@@ -49,7 +49,7 @@ public:
 
 private:
   double _value;
-  const number_parameter_descriptor &_descriptor;
+  const number_parameter_descriptor *_descriptor;
 };
 
 struct parameter_visitor {
