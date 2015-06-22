@@ -9,6 +9,12 @@ namespace sblocks {
 
 class parameter;
 
+/// \brief An abstract base class for all parameter descriptors. A parameter
+///        descriptor acts like a class for a parameter (it's instance).
+///
+/// Being a subclass of descriptor (and describable), every parameter
+/// descriptor will have a name, a description. Also, more importantly, it will
+/// be able to instantiate itself returning a pointer to a parameter.
 struct parameter_descriptor : descriptor {
   parameter_descriptor(std::string name, std::string descr);
   virtual std::unique_ptr<parameter> instantiate() const = 0;

@@ -10,9 +10,14 @@ class switch_parameter_descriptor;
 class number_parameter_descriptor;
 struct parameter_visitor;
 
+/// \brief An abstract base class for all parameters. A parameter is a instance
+///        of a parameter_descriptor.
+///
+/// Every parameter has an associated parameter_descriptor (that acts like it's
+/// class). Being a subclass of describable, every parameter has a
 struct parameter : describable {
-  const std::string &name() const override;
-  const std::string &description() const override;
+  const std::string &name() const override final;
+  const std::string &description() const override final;
 
   virtual const parameter_descriptor &get_descriptor() const = 0;
   virtual std::unique_ptr<parameter> copy() const = 0;
