@@ -3,15 +3,7 @@
 
 namespace sblocks {
 
-static block::block_iterator find_first_null(
-    std::vector<std::shared_ptr<block>> &vec) {
-  return std::find_if(vec.begin(), vec.end(), [](std::shared_ptr<block> &ptr) {
-    return !static_cast<bool>(ptr);
-  });
-}
-
 block::block(const block_descriptor &descr): _descriptor(&descr),
-    _inputs(descr.input_n()), _outputs(descr.output_n()),
     _parameters(std::move(descr.parameter_vector_copy())) {}
 
 std::shared_ptr<block> block::copy() const {
@@ -26,36 +18,20 @@ const std::string &block::description () const {
   return _descriptor->description();
 }
 
-block::block_iterator block::input_begin() {
-  return _inputs.begin();
-}
-
-block::block_iterator block::input_end() {
-  return _inputs.end();
-}
-
-block::block_iterator block::output_begin() {
-  return _outputs.begin();
-}
-
-block::block_iterator block::output_end() {
-  return _outputs.end();
-}
-
-block::param_iterator block::param_begin() {
+block::iterator block::begin() {
   return _parameters.begin();
 }
 
-block::param_iterator block::param_end() {
+block::iterator block::end() {
   return _parameters.end();
 }
 
-block::block_iterator block::input_first_free() {
-  return find_first_null(_inputs);
+block::const_iterator block::cbegin() const {
+  return _parameters.cbegin();
 }
 
-block::block_iterator block::output_first_free() {
-  return find_first_null(_outputs);
+block::const_iterator block::cend() const {
+  return _parameters.cend();
 }
 
 

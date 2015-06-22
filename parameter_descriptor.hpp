@@ -13,13 +13,16 @@ class parameter;
 ///        descriptor acts like a class for a parameter (it's instance).
 ///
 /// Being a subclass of descriptor (and describable), every parameter
-/// descriptor will have a name, a description. Also, more importantly, it will
-/// be able to instantiate itself returning a pointer to a parameter.
+/// descriptor has a name and a description. Also, more importantly, it must be
+/// able to instantiate itself returning a pointer to a parameter.
 struct parameter_descriptor : descriptor {
   parameter_descriptor(std::string name, std::string descr);
   virtual std::unique_ptr<parameter> instantiate() const = 0;
 };
 
+/// \brief A descriptor for a switch_parameter.
+///
+/// Nonbrief part.
 struct switch_parameter_descriptor : parameter_descriptor {
   switch_parameter_descriptor(std::string name, std::string descr,
       std::vector<std::string> options_);
@@ -29,6 +32,9 @@ struct switch_parameter_descriptor : parameter_descriptor {
   const std::vector<std::string> options;
 };
 
+/// \brief A descriptor for a number_parameter.
+///
+/// Nonbrief part.
 struct number_parameter_descriptor : parameter_descriptor {
   number_parameter_descriptor(std::string name, std::string descr, double min_,
       double max_);

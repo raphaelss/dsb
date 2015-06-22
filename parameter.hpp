@@ -14,7 +14,11 @@ struct parameter_visitor;
 ///        of a parameter_descriptor.
 ///
 /// Every parameter has an associated parameter_descriptor (that acts like it's
-/// class). Being a subclass of describable, every parameter has a
+/// class). Being a subclass of describable, every parameter has a name and a
+/// description (those of its parameter_descriptor). A parameter must be able
+/// to return its parameter_descriptor, generate a copy of itself with its
+/// present state and implement the accept member function (common visitor
+/// pattern).
 struct parameter : describable {
   const std::string &name() const override final;
   const std::string &description() const override final;
