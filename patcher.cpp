@@ -2,6 +2,7 @@
 
 namespace sblocks {
 
-patcher::patcher(const std::vector<block> &blocks): _blocks(&blocks) {}
+patcher::patcher(const definition_handler &descriptors)
+    : _descriptors(&descriptors) {}
 
 }

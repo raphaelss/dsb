@@ -14,10 +14,6 @@ public:
 
   unsigned input_n() const;
   unsigned output_n() const;
-  unsigned min_input_n() const;
-  unsigned max_input_n() const;
-  unsigned min_output_n() const;
-  unsigned max_output_n() const;
 
   std::vector<std::unique_ptr<parameter>> parameter_vector_copy() const;
 
